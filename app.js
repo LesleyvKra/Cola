@@ -82,14 +82,17 @@ function renderDeals(deals) {
     });
 }
 
-// Simuleer het ophalen van data (normaal gebruik je hier fetch())
-setTimeout(() => {
-    // Sorteer op grootste absolute besparing
-    const sortedDeals = mockDeals.sort((a, b) => {
-        const savingsA = a.normalPrice - a.dealPrice;
-        const savingsB = b.normalPrice - b.dealPrice;
-        return savingsB - savingsA;
+// Vervang de setTimeout onderaan je app.js door dit:
+fetch('./data.json')
+    .then(response => response.json())
+    .then(data => {
+        // Sorteer op grootste besparing
+        const sortedDeals = data.sort((a, b) => {
+            return (b.normalPrice - b.dealPrice) - (a.normalPrice - a.dealPrice);
+        });
+        renderDeals(sortedDeals);
+    })
+    .catch(error => {
+        console.error('Kon data niet laden:', error);
+        document.getElementById('deals-container').innerHTML = '<p>Geen live data beschikbaar op dit moment.</p>';
     });
-    
-    renderDeals(sortedDeals);
-}, 500); // Korte vertraging om een netwerkverzoek te simuleren
