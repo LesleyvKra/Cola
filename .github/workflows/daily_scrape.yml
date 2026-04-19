@@ -1,1 +1,29 @@
+name: Dagelijkse Prijs Check
 
+on:
+  schedule:
+    - cron: '0 8 * * *' # Elke ochtend om 08:00
+  workflow_dispatch: # Zodat je het ook handmatig kunt starten
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code ophalen
+        uses: actions/checkout@v2
+      
+      - name: Python instellen
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          
+      - name: Script draaien
+        run: python scraper.py
+        
+      - name: Resultaat opslaan in repo
+        run: |
+          git config --global user.name 'PriceBot'
+          git config --global user.email 'bot@github.com'
+          git add data.json
+          git commit -m "Update prijzen: $(date)"
+          git push
