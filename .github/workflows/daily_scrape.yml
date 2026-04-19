@@ -24,6 +24,10 @@ jobs:
         with:
           python-version: '3.11'
           
+     
+      - name: Installeer tools
+        run: pip install requests beautifulsoup4
+
       - name: Script draaien
         run: python scraper.py
         
