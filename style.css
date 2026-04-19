@@ -1,0 +1,129 @@
+:root {
+    --bg-color: #f3f4f6;
+    --text-color: #1f2937;
+    --card-bg: #ffffff;
+    --primary-color: #1d4ed8;
+    --savings-color: #16a34a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-bottom: 40px; /* Ruimte voor iPhone home indicator */
+    -webkit-font-smoothing: antialiased;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 24px 16px;
+    padding-top: max(24px, env(safe-area-inset-top)); /* Houdt rekening met de iPhone notch/dynamic island */
+    text-align: center;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+header p {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+main {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.deal-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.deal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+}
+
+.supermarket {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Supermarkt kleuren */
+.ah { color: #00AEEF; }
+.jumbo { color: #EEB717; }
+.dirk { color: #E30613; }
+.plus { color: #8EC54A; }
+
+.product-name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.current-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #9ca3af;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.savings {
+    background-color: var(--savings-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.validity {
+    font-size: 12px;
+    color: #6b7280;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+}
+
+.loading {
+    text-align: center;
+    color: #6b7280;
+    margin-top: 20px;
+}
