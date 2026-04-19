@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Code ophalen
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4 # Bijgewerkt van v2 naar v4
       
       - name: Python instellen
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5 # Bijgewerkt van v2 naar v5
         with:
-          python-version: '3.9'
+          python-version: '3.11' # Gebruik een moderne stabiele Python versie
           
       - name: Script draaien
         run: python scraper.py
@@ -24,6 +24,6 @@ jobs:
         run: |
           git config --global user.name 'PriceBot'
           git config --global user.email 'bot@github.com'
+          # We checken of er echt iets veranderd is voordat we commiten
           git add data.json
-          git commit -m "Update prijzen: $(date)"
-          git push
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update prijzen: $(date)" && git push)
