@@ -2,28 +2,40 @@ name: Dagelijkse Prijs Check
 
 on:
   schedule:
-    - cron: '0 8 * * *' # Elke ochtend om 08:00
-  workflow_dispatch: # Zodat je het ook handmatig kunt starten
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+# Hiermee dwingen we Node 24 af om die waarschuwing te stoppen
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Extra veiligheid voor schrijfrechten
+    permissions:
+      contents: write
     steps:
       - name: Code ophalen
-        uses: actions/checkout@v4 # Bijgewerkt van v2 naar v4
+        uses: actions/checkout@v4
       
       - name: Python instellen
-        uses: actions/setup-python@v5 # Bijgewerkt van v2 naar v5
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # Gebruik een moderne stabiele Python versie
+          python-version: '3.11'
           
       - name: Script draaien
         run: python scraper.py
         
-      - name: Resultaat opslaan in repo
+      - name: Resultaat opslaan
         run: |
           git config --global user.name 'PriceBot'
           git config --global user.email 'bot@github.com'
-          # We checken of er echt iets veranderd is voordat we commiten
           git add data.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Update prijzen: $(date)" && git push)
+          # Commit alleen als er een verandering is, anders doet de robot niks
+          if git diff --staged --quiet; then
+            echo "Geen wijzigingen om te committen"
+          else
+            git commit -m "Update prijzen: $(date)"
+            git push
+          fi
